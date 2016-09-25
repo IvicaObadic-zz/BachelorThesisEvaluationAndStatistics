@@ -1,22 +1,30 @@
 import json
 from scipy.sparse import *
 
-def getItemUserMatrix(filepath):
+#Read review ratings from filepath. If ratingsToTake is not specified, then read the whole dataset in the memory.
+def getItemUserMatrix(filepath, ratingsToTake=None):
 
     reviewsFile = open(filepath, mode='r')
     users = set()
     business = set()
     businessUsers = {}
+    count = 0
     for line in reviewsFile:
-        review = json.loads(line.strip())
-        user_id = review['user_id']
-        business_id = review['business_id']
-        rating = review['stars']
-        users.add(user_id)
-        business.add(business_id)
-        businessUsers.setdefault(business_id, {})
-        businessUsers[business_id][user_id] = rating
 
+        if ratingsToTake == None or count < ratingsToTake:
+            review = json.loads(line.strip())
+            user_id = review['user_id']
+            business_id = review['business_id']
+            rating = review['stars']
+            users.add(user_id)
+            business.add(business_id)
+            businessUsers.setdefault(business_id, {})
+            businessUsers[business_id][user_id] = rating
+
+        if count >= ratingsToTake: break
+        count+=1
+
+    reviewsFile.close()
     return users, business, businessUsers
 
 
@@ -61,8 +69,8 @@ def convertToSparse(ratingDictionary):
 
     return csr_matrix((data, indices, indptr), dtype=int)
 
-def getSparseRatingsMatrix(filepath):
-    users, business, ratingsForBusiness = getItemUserMatrix(filepath)
+def getSparseRatingsMatrix(filepath, ratingsToTake):
+    users, business, ratingsForBusiness = getItemUserMatrix(filepath, ratingsToTake)
     ratingsByUsers = invertDict(ratingsForBusiness)
     return convertToSparse(ratingsByUsers)
 
