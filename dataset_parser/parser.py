@@ -115,42 +115,41 @@ def parseReviewsDataset(filepath):
     most_common_items = [item_with_count[1] for item_with_count in item_counts.most_common(1154)]
     print(sum(most_common_items))
 
-    ##this section generates the plots from the dataset.
+    #this section generates the plots from the dataset.
 
-    #generate_barplot_from_ratings(ratings)
+    generate_barplot_from_ratings(ratings)
 
-    # generate_histogram_for_count_of_entity_reviews(
-    #     users,
-    #     'Users review distribution',
-    #     'Reviews',
-    #     'Users',
-    #     plots_source_file + 'num_user_reviews_histogram.jpg'
-    #     )
+    generate_histogram_for_count_of_entity_reviews(
+        users,
+        'Users review distribution',
+        'Reviews',
+        'Users',
+        plots_source_file + 'num_user_reviews_histogram.jpg'
+        )
 
-    # generate_histogram_for_count_of_entity_reviews(
-    #     business,
-    #     'Businesses review distribution',
-    #     'Reviews',
-    #     'Businesses',
-    #     plots_source_file + 'num_businesses_reviews_histogram.jpg'
-    # )
+    generate_histogram_for_count_of_entity_reviews(
+        business,
+        'Businesses review distribution',
+        'Reviews',
+        'Businesses',
+        plots_source_file + 'num_businesses_reviews_histogram.jpg'
+    )
 
-    # generate_histogram_for_count_of_entity_reviews(
-    #     business,
-    #     'Review distribution for businesses with less than 100 reviews',
-    #     'Reviews',
-    #     'Businesses',
-    #     plots_source_file + 'num_businesses_reviews_histogram_less_than_100.jpg',
-    #     filter_by_count_threshold
-    # )
-    # generate_histogram_from_review_votes(
-    #     business_votes_counts,
-    #     'Votes distribution',
-    #     'Votes',
-    #     'Reviews',
-    #     plots_source_file + 'votes_distribution.jpg'
-    # )
-    # generate_pairwise_histogram(business, business_votes_counts)
+    generate_histogram_for_count_of_entity_reviews(
+        business,
+        'Review distribution for businesses with less than 100 reviews',
+        'Reviews',
+        'Businesses',
+        plots_source_file + 'num_businesses_reviews_histogram_less_than_100.jpg',
+        filter_by_count_threshold
+    )
+    generate_histogram_from_review_votes(
+        business_votes_counts,
+        'Votes distribution',
+        'Votes',
+        'Reviews',
+        plots_source_file + 'votes_distribution.jpg'
+    )
+    generate_pairwise_histogram(business, business_votes_counts)
 
-# get_businesses_categories()
 parseReviewsDataset('dataset/yelp_training_set_review.json')
